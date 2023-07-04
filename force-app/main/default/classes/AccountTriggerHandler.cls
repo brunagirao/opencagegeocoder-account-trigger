@@ -13,6 +13,7 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
 
     public override void afterInsert() {
         System.debug('========== AFTER INSERT =========');
+        AccountHelper.fillLocationCoordinatesFields((Map<Id, Account>)Trigger.newMap, (Map<Id, Account>)Trigger.oldMap);
     }
 
     public override void beforeUpdate() {
