@@ -80,6 +80,70 @@ public with sharing class OpenCageGeocoderService {
 
     }
 
+    @future (callout=true)
+    public static void getReverseGeoCode(Set<Id> recordIdsSet) {
+        System.debug('OpenCageGeocoderService | GetReverseGeoCode ');
+        System.debug('recordIdsSet => ' + recordIdsSet);
+
+        try {
+            List<Account> accountsToUpdate = getAccountsToUpdateAddress(recordIdsSet);
+            System.debug('accountsToUpdate => ' + accountsToUpdate);
+
+            if(!accountsToUpdate.isEmpty()) {
+
+                //Start HTTP Request/Response variables
+                http     = new Http();
+                request  = new HttpRequest();
+                response = new HttpResponse();
+
+                //Build base URL Params for Request
+                Map<String, String> baseURLParamMap = getBaseURLParam();    
+                
+                for (Account acc : accountsToUpdate) {
+
+                    //Build dynamic query part of the endpoint getting lat/long information
+                    baseURLParamMap.put(
+                                    'query',
+                                    'q='+ EncodingUtil.urlEncode( 
+                                          acc.Location__latitude__s  + ',' 
+                                        + acc.Location__longitude__s + ',',
+                                          'UTF-8'
+                                    )
+                    );
+                    System.debug('baseURLParamMap => ' + baseURLParamMap);
+
+                    response = http.send(createBaseRequest(baseURLParamMap));
+                    
+                    if(response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
+
+                        OpenCageGeocoder openCageGeocoderData = (OpenCageGeocoder)JSON.deserialize(response.getBody(), OpenCageGeocoder.class);
+                        List<OpenCageGeocoder.Results> openCageGeocoderDataResults = (List<OpenCageGeocoder.Results>) openCageGeocoderData.results;
+        
+                        if(!openCageGeocoderDataResults.isEmpty()) {
+        
+                            OpenCageGeocoder.Results openCageGeocoderDataResult = openCageGeocoderDataResults.get(0);
+                            acc.ShippingStreet     = openCageGeocoderDataResult.components.road;
+                            acc.ShippingCity       = openCageGeocoderDataResult.components.city;
+                            acc.ShippingState      = openCageGeocoderDataResult.components.state;
+                            acc.ShippingPostalCode = openCageGeocoderDataResult.components.postcode;
+                            acc.ShippingCountry    = openCageGeocoderDataResult.components.country_code;
+                            acc.Location_Link__c   = openCageGeocoderDataResult.annotations.OSM.url;
+                        }
+                    } else {
+                        System.debug('ERROR=>' + response.getBody());
+                    }
+                }
+
+                SObjectAccessDecision decision = Security.stripInaccessible(AccessType.UPDATABLE, accountsToUpdate);
+                System.debug('decision.getRecords() => ' + decision.getRecords());
+                update decision.getRecords();
+            }
+
+        } catch (Exception e) {
+            System.debug('ERROR=>' + e.getStackTraceString());
+        }
+    }
+
 
     /**
     * @description Method responsible to create the Base request.
@@ -133,6 +197,22 @@ public with sharing class OpenCageGeocoderService {
                    AND ShippingState       != '' 
                    AND ShippingPostalCode  != '' 
                    AND ShippingCountry     != '' 
+                ];
+    }
+
+     /**
+    * @description Method responsible for return Accounts record with valid 
+                   Location Coordinates to update Shipping Address
+    * @param recordIdsSet 
+    * @return List<Account> 
+    **/
+    private static List<Account> getAccountsToUpdateAddress(Set<Id> recordIdsSet) {
+
+        return [SELECT Id, Location__latitude__s, Location_Link__c,
+                       Location__longitude__s, ShippingAddress
+                  FROM Account
+                 WHERE Id =: recordIdsSet
+                  WITH SECURITY_ENFORCED
                 ];
     }
 }
