@@ -13,7 +13,8 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
 
     public override void afterInsert() {
         System.debug('========== AFTER INSERT =========');
-        AccountHelper.fillLocationCoordinatesFields((Map<Id, Account>)Trigger.newMap, (Map<Id, Account>)Trigger.oldMap);
+        //AccountHelper.fillLocationCoordinatesFields((Map<Id, Account>)Trigger.newMap, (Map<Id, Account>)Trigger.oldMap);
+        //AccountHelper.fillShippingAddressFields((Map<Id, Account>)Trigger.newMap, (Map<Id, Account>)Trigger.oldMap);
     }
 
     public override void beforeUpdate() {
@@ -22,7 +23,8 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
 
     public override void afterUpdate() {
         System.debug('========== AFTER UPDATE =========');
-        AccountHelper.fillLocationCoordinatesFields((Map<Id, Account>)Trigger.newMap, (Map<Id, Account>)Trigger.oldMap);
+        //AccountHelper.fillLocationCoordinatesFields((Map<Id, Account>)Trigger.newMap, (Map<Id, Account>)Trigger.oldMap);
+        //AccountHelper.fillShippingAddressFields((Map<Id, Account>)Trigger.newMap, (Map<Id, Account>)Trigger.oldMap);
     }
 
     public override void beforeDelete() {
