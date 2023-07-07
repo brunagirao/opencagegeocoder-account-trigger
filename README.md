@@ -63,9 +63,9 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#license">License</a></li> -->
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li> -->
+    <li><a href="#acknowledgments">Acknowledgments</a></li> 
   </ol>
 </details>
 
@@ -114,10 +114,21 @@ For this project, you need a **[Salesforce Developer Edition](https://developer.
    git clone https://github.com/brunagirao/opencagegeocoder-account-trigger.git
    ```
 3. Deploy all the code and configs in your **[Salesforce Developer Edition](https://developer.salesforce.com/signup).**
-4. On Salesforce, go to Setup > Custom Settings > Select Open Cage Geocoder Settings
+4. On Salesforce, go to Setup > Custom Settings > Select **Open Cage Geocoder Settings**
    ![image](https://github.com/brunagirao/opencagegeocoder-account-trigger/assets/30693791/50fc0aff-7218-4c56-97be-d54da394eb73)
-5. On Open Cage Geocoder Settings > Click Manage > Click in New > Create the Open Cage Geocoder Settings below
+5. On Open Cage Geocoder Settings > Click Manage > Click in New > Create the **Open Cage Geocoder Settings record **below
    ![image](https://github.com/brunagirao/opencagegeocoder-account-trigger/assets/30693791/fe67ab69-cbe4-479d-9600-b91d4d0f7245)
+6. After create **Open Cage Geocoder Setting**s record. You will have this:
+  ![image](https://github.com/brunagirao/opencagegeocoder-account-trigger/assets/30693791/0793b91e-84e7-4ce8-bdcc-59034d1e9a71)
+7. After that, go to **AccountTriggerHandler** and uncomment one of the methods below to test the functionalities.
+   - **AccountHelper.fillLocationCoordinatesFields:** this method uses the **reverse resource of the OpenCage API** and it's responsible to fill the **Account Shipping Address** based on Account Coordinate fields.
+     ![image](https://github.com/brunagirao/opencagegeocoder-account-trigger/assets/30693791/3ed1449c-e907-4495-be4d-68adb48a35f6)
+     
+
+   - **AccountHelper.fillShippingAddressFields:** this method uses the **forward of the OpenCage API** and it's method responsible to fill the **Account Coordinates** fields based on Account Shipping Address.
+      ![image](https://github.com/brunagirao/opencagegeocoder-account-trigger/assets/30693791/2e5aa3b5-a695-4d77-b945-d450967ca174)
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -175,25 +186,26 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 
 
-<!-- CONTACT 
+<!-- CONTACT -->
 ## Contact
 
-Your Name - [Bruna's Trailhead](https://trailblazer.me/id/brunagirao)
+* **Trailhead** - [Bruna's Trailhead](https://trailblazer.me/id/brunagirao)
+* **LinkedIn**  - [Bruna's LinkedIn](https://linkedin.com/in/brunagirao)
+* **Project Link:** - [OpenCage Geocoder API | Salesforce Account Object](https://github.com/brunagirao/opencagegeocoder-account-trigger)
 
-Project Link: [OpenCage Geocoder API | Salesforce Account Object](https://github.com/brunagirao/opencagegeocoder-account-trigger)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p> 
 
 
 
-<!-- ACKNOWLEDGMENTS 
+<!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Apex Developer Guide - Future Methods](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_invoking_future_methods.htm)
+* [Trigger Handler Framework](https://github.com/kevinohara80/sfdc-trigger-framework)
+* [Apex Developer Guide - HttpRequest Class](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_classes_restful_http_httprequest.htm)
+* [OpenCage Geocoder API ](https://opencagedata.com/)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -209,7 +221,7 @@ Project Link: [OpenCage Geocoder API | Salesforce Account Object](https://github
 [issues-url]: https://github.com/brunagirao/opencagegeocoder-account-trigger/issues
 [license-shield]: https://img.shields.io/github/license/brunagirao/opencagegeocoder-account-trigger.svg?style=for-the-badge
 [license-url]: https://github.com/brunagirao/opencagegeocoder-account-trigger/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[in-shield]: https://img.shields.io/badge/-In-black.svg?style=for-the-badge&logo=in&colorB=555
 [linkedin-url]: https://linkedin.com/in/brunagirao
 [trailhead-shield]: https://img.shields.io/badge/-Trailhead-black.svg?style=for-the-badge&logo=trailhead&colorB=555
 [trailhead-url]: https://trailblazer.me/id/brunagirao
